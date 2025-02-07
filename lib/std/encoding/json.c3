@@ -183,7 +183,7 @@ fn Object*? parse_map(JsonContext* context) @local
 			temp_key.append(string);
 			parse_expected(context, COLON)!;
 			Object* element = parse_any(context)!;
-			map.set(temp_key.str_view(), element);
+			map.set(temp_key.copy_str(context.allocator), element);
 			token = advance(context)!;
 			if (token == JsonTokenType.COMMA)
 			{
