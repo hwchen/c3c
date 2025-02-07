@@ -300,11 +300,11 @@ fn Key[] HashMap.keys(&self, Allocator allocator)
 	{
 		while (entry)
 		{
-			$if COPY_KEYS:
-				list[index++] = entry.key.copy(allocator);
-			$else
+			//$if COPY_KEYS:
+			//	list[index++] = entry.key.copy(allocator);
+			//$else
 				list[index++] = entry.key;
-			$endif
+			//$endif
 			entry = entry.next;
 		}
 	}
@@ -386,9 +386,9 @@ fn HashMapKeyIterator HashMap.key_iter(&self)
 
 fn void HashMap.add_entry(&map, uint hash, Key key, Value value, uint bucket_index) @private
 {
-	$if COPY_KEYS:
-	key = key.copy(map.allocator);
-	$endif
+	//$if COPY_KEYS:
+	//key = key.copy(map.allocator);
+	//$endif
 	Entry* entry = allocator::new(map.allocator, Entry, { .hash = hash, .key = key, .value = value, .next = map.table[bucket_index] });
 	map.table[bucket_index] = entry;
 	if (map.count++ >= map.threshold)
@@ -510,9 +510,9 @@ fn bool HashMap.remove_entry_for_key(&map, Key key) @private
 fn void HashMap.create_entry(&map, uint hash, Key key, Value value, int bucket_index) @private
 {
 	Entry *e = map.table[bucket_index];
-	$if COPY_KEYS:
-	key = key.copy(map.allocator);
-	$endif
+	//$if COPY_KEYS:
+	//key = key.copy(map.allocator);
+	//$endif
 	Entry* entry = allocator::new(map.allocator, Entry, { .hash = hash, .key = key, .value = value, .next = map.table[bucket_index] });
 	map.table[bucket_index] = entry;
 	map.count++;
@@ -520,9 +520,9 @@ fn void HashMap.create_entry(&map, uint hash, Key key, Value value, int bucket_i
 
 fn void HashMap.free_entry(&self, Entry *entry) @local
 {
-	$if COPY_KEYS:
-	allocator::free(self.allocator, entry.key);
-	$endif
+	//$if COPY_KEYS:
+	//allocator::free(self.allocator, entry.key);
+	//$endif
 	self.free_internal(entry);
 }
 
